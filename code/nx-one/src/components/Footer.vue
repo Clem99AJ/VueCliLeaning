@@ -1,12 +1,16 @@
 <template>
   <div class="todo-footer">
     <label>
-      <input type="checkbox" v-on:click="selectedAllTodo()">
+      <input type="checkbox" v-on:click="selectedAll()" v-model="isChecked">
     </label>
     <span>
-      <span>已完成0件</span>/2件
-    </span>
-    <button class="todo-footer" >清除已完成任务</button>
+      <span>已完成{{finishedCount}}件</span>/
+      <span>{{todos.length}}件</span>
+      </span>
+    <button
+        class="todo-footer"
+        v-on:click="delFinishedTodos()"
+    >清除已完成任务</button>
   </div>
 </template>
 
@@ -15,11 +19,26 @@ export default {
   name: "Foot",
   props:{
     todos:Array,
-    selectedAllTodo:Function
+    selectedAllTodo:Function,
+    delFinishedTodos:Function,
+    isChecked:false
   },
   methods:{
     selectedAll(){
-
+      this.selectedAllTodo(!this.isChecked)
+    }
+  },
+  computed:{
+    //计算勾选了几个
+    finishedCount(){
+      /*
+      * reduce((默认值,每一个数据)=>{
+      *
+      * },初始值)
+      * */
+      return this.todos.reduce((total,todo)=>{
+        return total + (todo.finished ? 1 : 0)
+      },0)
     }
   }
 }

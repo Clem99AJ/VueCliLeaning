@@ -10,7 +10,10 @@
       >
       </List>
       <Footer
-          v-bind:selectedAllTodo="selectedAllTodo"
+          v-bind:todos="todos"
+          v-bind:selected-all-todo="selectedAllTodo"
+          v-bind:del-finished-todos="delFinishedTodos"
+
       ></Footer>
     </div>
   </div>
@@ -47,11 +50,12 @@ import Footer from "./components/Footer.vue"
       },
       //选中所有
       selectedAllTodo(isChecked){
+        /*循环遍历所有*/
         this.todos.forEach((todo)=>{
           todo.finished = isChecked
         })
       },
-      //删除所有
+      //删除选中的
       delFinishedTodos(){
         this.todos = this.todos.filter((todo)=>{
           return !todo.finished
