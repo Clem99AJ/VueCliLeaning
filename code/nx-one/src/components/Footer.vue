@@ -1,7 +1,7 @@
 <template>
   <div class="todo-footer">
     <label>
-      <input type="checkbox" v-on:click="selectedAll()" v-model="isChecked">
+      <input type="checkbox" v-on:click="isChecked" v-model="isChecked">
     </label>
     <span>
       <span>已完成{{finishedCount}}件</span>/
@@ -24,9 +24,7 @@ export default {
     isChecked:false
   },
   methods:{
-    selectedAll(){
-      this.selectedAllTodo(!this.isChecked)
-    }
+
   },
   computed:{
     //计算勾选了几个
@@ -36,9 +34,24 @@ export default {
       *
       * },初始值)
       * */
-      return this.todos.reduce((total,todo)=>{
+      /*return this.todos.reduce((total,todo)=>{
         return total + (todo.finished ? 1 : 0)
-      },0)
+      },0)*/
+
+      //等效于遍历了一遍
+      let total = 0
+      this.todos.forEach((todo)=>{
+        total += (todo.finished ? 1 : 0)
+      })
+      return total
+    },
+    isChecked:{
+      get(){
+        return this.finishedCount === this.todos.length && this.todos.length > 0
+      },
+      set(value){
+        this.selectedAllTodo(value)
+      }
     }
   }
 }
