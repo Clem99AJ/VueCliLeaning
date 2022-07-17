@@ -1,7 +1,7 @@
 <template>
   <div class="todo-footer">
     <label>
-      <input type="checkbox" v-on:click="isChecked" v-model="isChecked">
+      <input type="checkbox" v-model="isChecked">
     </label>
     <span>
       <span>已完成{{finishedCount}}件</span>/
@@ -14,47 +14,43 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Foot",
-  props:{
-    todos:Array,
-    selectedAllTodo:Function,
-    delFinishedTodos:Function,
-    isChecked:false
-  },
-  methods:{
-
-  },
-  computed:{
-    //计算勾选了几个
-    finishedCount(){
-      /*
+<script setup>
+  //unref解构
+  import {inject,computed,reactive,unref} from "vue";
+  //1、订阅
+  const todos = inject('todos')
+  const selectedAllTodo = inject('selectedAllTodo')
+  const  delFinishedTodos= inject('delFinishedTodos')
+  //2、定义计算属性
+  //计算勾选了几个
+  const finishedCount = computed(()=>{
+    /*
       * reduce((默认值,每一个数据)=>{
       *
       * },初始值)
       * */
-      /*return this.todos.reduce((total,todo)=>{
-        return total + (todo.finished ? 1 : 0)
-      },0)*/
+    /*return this.todos.reduce((total,todo)=>{
+      return total + (todo.finished ? 1 : 0)
+    },0)*/
 
-      //等效于遍历了一遍
-      let total = 0
-      this.todos.forEach((todo)=>{
-        total += (todo.finished ? 1 : 0)
-      })
-      return total
+    //等效于遍历了一遍
+    let total = 0
+    todos.forEach((todo)=>{
+      total += (todo.finished ? 1 : 0)
+    })
+    return total
+  })
+  //判断有没有全选
+  const isChecked = computed({
+    get(){
+      //return finishedCount.value === todos.length &&todos.length > 0
+      //解构
+      return unref(finishedCount) === todos.length &&todos.length > 0
     },
-    isChecked:{
-      get(){
-        return this.finishedCount === this.todos.length && this.todos.length > 0
-      },
-      set(value){
-        this.selectedAllTodo(value)
-      }
+    set(value){
+      selectedAllTodo(value)
     }
-  }
-}
+  })
 </script>
 
 <style scoped>

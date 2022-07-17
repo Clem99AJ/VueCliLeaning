@@ -3,7 +3,7 @@
       <Item
           v-bind:todo="todo"
           v-bind:index="index"
-
+          v-bind:delTodo="delTodo"
       ></Item>
 
     </ul>
@@ -11,16 +11,11 @@
 
 <script>
 import Item from "./Item.vue";
-import {inject} from "vue";
-
 export default {
   name: "List",
-  setup(){
-    //订阅
-    const todos = inject('todos')
-    return{
-      todos
-    }
+  props:{
+    todos: {Array},
+    delTodo:Function
   },
   components:{
     Item

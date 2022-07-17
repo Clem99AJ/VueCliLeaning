@@ -1,0 +1,8 @@
+#mine_msg{
+    height: 200px;
+    width: 100px;
+
+    background-color:palegreen;
+    border-radius: 25px;
+    display: flex;
+}

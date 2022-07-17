@@ -19,32 +19,41 @@
 </template>
 
 <script>
+import {inject,ref} from "vue";
+
 export default {
   name: "Item",
-  props: {
-    todo: {},
-    delTodo:Function,
-    index:Number
-  },
-  data() {
-    return {
-      isShowDelBtn: false,
-      bgColor: '#fff',
+  setup(props,context){
+    //1、订阅删除方法
+    const delTodo = inject('delTodo')
+    //2、定义属性和方法
+    let isShowDelBtn = ref(false)
+    let bgColor = ref('#fff')
 
+    const dealShow = (isShow)=>{
+      isShowDelBtn.value = isShow
+      bgColor.value = isShow ? '#ddd' : '#fff'
     }
-  },
-  methods: {
-    dealShow(isShow) {
-      //1、控制按钮的显示和隐藏
-      this.isShowDelBtn = isShow
-      //2、控制背景颜色
-      this.bgColor = isShow ? '#ddd' : '#fff'
-    },
-    delItem(Index){
+    const delItem = ()=>{
       if(window.confirm('Are you sure want to delete me')){
-        this.delTodo(this.index)
+        delTodo(props.index)
       }
     }
+    return{
+      delTodo,
+      isShowDelBtn,
+      bgColor,
+      dealShow,
+      delItem
+    }
+  },
+  props: {
+    todo: {},
+    index:Number
+  },
+  methods: {
+
+
   }
 }
 </script>

@@ -1,0 +1,15 @@
+#mine{
+    height: 500px;
+    width: 500px;
+    opacity: 0.7;
+    background-color: pink;;
+    border-radius: 25px;
+}
+.content{
+    display: flex;
+}
+.content-nav{
+    width: 80px;
+    background-color:black;
+    opacity: 0.5;
+}

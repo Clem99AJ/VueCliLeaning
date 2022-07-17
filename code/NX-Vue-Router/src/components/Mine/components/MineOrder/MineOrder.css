@@ -1,0 +1,8 @@
+#mine_order{
+    height: 200px;
+    width: 100px;
+
+    background-color: paleturquoise;
+    border-radius: 25px;
+    display: flex;
+}
